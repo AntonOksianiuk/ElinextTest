@@ -16,28 +16,22 @@ public class InjectorImpl implements Injector {
 
     private static InjectorImpl INJECTOR_IMPL = new InjectorImpl();
     private static Map<Class, Class> singleToneBeans = new ConcurrentHashMap<>();
+    private static Map<Class, Class> interfaceToImplementations = new ConcurrentHashMap<>();
 
     public static InjectorImpl getInstance() {
         return INJECTOR_IMPL;
     }
 
-    private static Map<Class, Class> interfaceToImplementations = new ConcurrentHashMap<>();
-
     @Override
-    public <T> Provider<T> getProvider(Class<T> type) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public <T> Provider<T> getProvider(Class<T> type) throws InvocationTargetException,
+            InstantiationException, IllegalAccessException {
 
         Object bean = null;
         Class<? extends T> implementationClass;
 
         if (singleToneBeans.containsKey(type)){
 
-            return new Provider<T>() {
-                @Override
-                public T getInstance() {
-                    return (T) singleToneBeans.get(type);
-                }
-            };
-
+            return () -> (T) singleToneBeans.get(type);
 
         } else {
             implementationClass = type;
@@ -73,12 +67,7 @@ public class InjectorImpl implements Injector {
             }
 
             T finalBean = (T) bean;
-            return new Provider<T>() {
-                @Override
-                public T getInstance() {
-                    return finalBean;
-                }
-            };
+            return () -> finalBean;
         }
     }
 

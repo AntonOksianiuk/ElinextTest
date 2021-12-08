@@ -67,7 +67,6 @@ public class ClassFinder {
             if (claz.getInterfaces().length > 0) {
 
                 //Checking interfaces in a class
-
                 for (Class classs : claz.getInterfaces()) {
                     if (interfaceClass.equals(classs)) {
                         set.add(claz);
