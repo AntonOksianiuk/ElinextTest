@@ -36,7 +36,11 @@ public class InjectorImpl implements Injector {
         } else {
             implementationClass = type;
             if (implementationClass.isInterface()) {
-                implementationClass = getImplementationClass(implementationClass);
+                try {
+                    implementationClass = getImplementationClass(implementationClass);
+                } catch (Exception e) {
+                    return null;
+                }
             }
 
             List<Constructor> constructorList = Arrays.stream(implementationClass
@@ -48,6 +52,7 @@ public class InjectorImpl implements Injector {
                 throw new TooManyConstructorsException("Your annotations Inject more than 1 in the class");
             } else if (constructorList.size() < 1) {
                 try {
+                    implementationClass.getDeclaredConstructor().setAccessible(true);
                     bean = implementationClass.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
                     throw new ConstructorNotFoundException("Your default constructor was not found");
@@ -61,6 +66,13 @@ public class InjectorImpl implements Injector {
                 List<Object> completeParam = new ArrayList<>();
 
                 for (Class parametr : parameters) {
+                    if (parametr.isInterface()) {
+                        try {
+                            getImplementationClass(parametr);
+                        } catch (Exception e){
+                            throw new BindingNotFoundException();
+                        }
+                    }
                     completeParam.add(INJECTOR_IMPL.getProvider(parametr).getInstance());
                 }
                 bean = constructor.newInstance(completeParam.toArray());
@@ -87,8 +99,7 @@ public class InjectorImpl implements Injector {
 
             if (implementationClasses.size() > 1) {
                 throw new RuntimeException("Interface has more than 1 implementations");
-            } else if (implementationClasses.size() == 0) throw new BindingNotFoundException();
-
+            }
             return implementationClasses.stream().findFirst().get();
         });
     }

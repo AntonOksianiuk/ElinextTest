@@ -2,13 +2,10 @@ package di.container.oksianiuk.anton.model;
 
 import di.container.oksianiuk.anton.annotation.Inject;
 
-public class GiftDistributor implements Distributor
- {
+public class GiftDistributor implements Distributor {
 
     private PaymentSystem paymentSystem;
-
     private Gift gift;
-
     private User user;
 
     @Inject
@@ -22,9 +19,8 @@ public class GiftDistributor implements Distributor
     }
 
     @Override
-    public void distributeGift(){
+    public void distributeGift() {
         paymentSystem.pay();
         System.out.println(String.format("Person %s got his gift %s", user.getUsername(), gift.getName()));
     }
-
 }

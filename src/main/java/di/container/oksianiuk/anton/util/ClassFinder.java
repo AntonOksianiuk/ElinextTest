@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class ClassFinder {
 
-    private static final String packageToScan = "di.container.oksianiuk.anton";
+    private static String packageToScan;
 
     private static final char PKG_SEPARATOR = '.';
 
@@ -77,5 +77,13 @@ public class ClassFinder {
         }
 
         return set;
+    }
+
+    public static String getPackageToScan() {
+        return packageToScan;
+    }
+
+    public static void setPackageToScan(String packageToScan) {
+        ClassFinder.packageToScan = packageToScan;
     }
 }
