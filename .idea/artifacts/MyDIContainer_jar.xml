@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MyDIContainer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MyDIContainer_jar</output-path>
+    <root id="archive" name="MyDIContainer.jar">
+      <element id="module-output" name="MyDIContainer" />
+    </root>
+  </artifact>
+</component>
