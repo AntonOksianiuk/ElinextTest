@@ -1,4 +1,4 @@
-package di.container.oksianiuk.anton.testDistributor;
+package di.container.oksianiuk.anton.model.impl;
 
 import di.container.oksianiuk.anton.model.Distributor;
 import di.container.oksianiuk.anton.model.Gift;
@@ -20,7 +20,7 @@ public class GiftDistributorWithoutInjectAnnotationAndConstructor implements Dis
     }
 
     @Override
-    public void distributeGift(){
+    public void distributeGift() {
         paymentSystem.pay();
         System.out.println(String.format("Person %s got his gift %s", user.getUsername(), gift.getName()));
     }

@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 public class InjectorImpl implements Injector {
 
-    private static InjectorImpl INJECTOR_IMPL = new InjectorImpl();
-    private static Map<Class, Class> singleToneBeans = new ConcurrentHashMap<>();
-    private static Map<Class, Class> interfaceToImplementations = new ConcurrentHashMap<>();
+    private static final InjectorImpl INJECTOR_IMPL = new InjectorImpl();
+    private static final Map<Class, Class> singleToneBeans = new ConcurrentHashMap<>();
+    private static final Map<Class, Class> interfaceToImplementations = new ConcurrentHashMap<>();
 
     public static InjectorImpl getInstance() {
         return INJECTOR_IMPL;
@@ -29,7 +29,7 @@ public class InjectorImpl implements Injector {
         Object bean = null;
         Class<? extends T> implementationClass;
 
-        if (singleToneBeans.containsKey(type)){
+        if (singleToneBeans.containsKey(type)) {
 
             return () -> (T) singleToneBeans.get(type);
 
@@ -69,7 +69,7 @@ public class InjectorImpl implements Injector {
                     if (parametr.isInterface()) {
                         try {
                             getImplementationClass(parametr);
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             throw new BindingNotFoundException();
                         }
                     }
@@ -93,6 +93,7 @@ public class InjectorImpl implements Injector {
         singleToneBeans.put(intf, impl);
     }
 
+    //the method that gets the implementation of the interface
     private static <T> Class<? extends T> getImplementationClass(Class<T> interfaceClass) {
         return interfaceToImplementations.computeIfAbsent(interfaceClass, clazz -> {
             Set<Class<? extends T>> implementationClasses = ClassFinder.getSubTypesOf(interfaceClass);

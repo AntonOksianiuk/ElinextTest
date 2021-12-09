@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//A class designed to scan packages and get all the implementation of interfaces
 public class ClassFinder {
 
     private static String packageToScan;
@@ -17,7 +18,8 @@ public class ClassFinder {
 
     private static final String CLASS_FILE_SUFFIX = ".class";
 
-    private static final String BAD_PACKAGE_ERROR = "Unable to get resources from path '%s'. Are you sure the package '%s' exists?";
+    private static final String BAD_PACKAGE_ERROR = "Unable to get resources from path '%s'." +
+            " Are you sure the package '%s' exists?";
 
     private static List<Class<?>> find(String scannedPackage) {
         String scannedPath = scannedPackage.replace(PKG_SEPARATOR, DIR_SEPARATOR);
